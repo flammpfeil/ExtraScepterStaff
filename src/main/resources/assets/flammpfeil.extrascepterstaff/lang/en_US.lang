@@ -20,3 +20,6 @@ tc.research_page.ROD_ESS_Ex_alicorn_staff.1=Center is reqired "Alicorn Staff Cor
 tc.research_text.CAP_ESS_alicorn=Enchantment gold cap
 tc.research_name.CAP_ESS_alicorn=Alicorn gold cap
 tc.research_page.CAP_ESS_alicorn.1=Aer Ordo Perditio discount
+item.Wand.ESS_alicorn.cap=Blessed
+item.Wand.ESS_alicorn.rod=Alicorn
+item.Wand.ESS_Ex_alicorn.rod=Clarita Visas

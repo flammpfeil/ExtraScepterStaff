@@ -21,3 +21,6 @@ tc.research_page.ROD_ESS_Ex_alicorn_staff.1=翼を持つ一角獣の角が素材
 tc.research_text.CAP_ESS_alicorn=Enchantment gold cap
 tc.research_name.CAP_ESS_alicorn=Alicorn gold cap
 tc.research_page.CAP_ESS_alicorn.1=翼を持つ一角獣の加護を付与した金石突<BR>Aer Ordo Perditioに高い親和性をみせる
+item.Wand.ESS_alicorn.cap=祝福
+item.Wand.ESS_alicorn.rod=翼一角獣
+item.Wand.ESS_Ex_alicorn.rod=クラーリタ・ヴィサス
