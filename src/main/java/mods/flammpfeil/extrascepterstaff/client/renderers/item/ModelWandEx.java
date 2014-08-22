@@ -1,27 +1,19 @@
 package mods.flammpfeil.extrascepterstaff.client.renderers.item;
 
 import com.google.common.collect.Maps;
-import mods.flammpfeil.extrascepterstaff.ExtraScepterStaff;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
-import thaumcraft.client.lib.UtilsFX;
-import thaumcraft.client.renderers.block.BlockRenderer;
-import thaumcraft.client.renderers.item.ModelWand;
-import thaumcraft.common.Thaumcraft;
+import thaumcraft.client.renderers.models.ModelWand;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 import java.awt.*;

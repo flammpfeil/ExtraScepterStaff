@@ -6,9 +6,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import org.lwjgl.opengl.GL11;
 import thaumcraft.client.renderers.item.ItemWandRenderer;
-import thaumcraft.client.renderers.item.ModelWand;
+import thaumcraft.client.renderers.models.ModelWand;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 /**

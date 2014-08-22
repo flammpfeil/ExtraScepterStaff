@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "mc1.7.2 r1"
+version = "mc1.7.10 r1"
 group= "flammpfeil.extrascepterstaff" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ExtraScepterStaff"
 
 minecraft {
-    version = "1.7.2-10.12.2.1126"
+    version = "1.7.10-10.13.0.1183"
     assetDir = "eclipse/assets"
 
     //static final boolean isRelease = /*@IS_RELEASE@*/ false;

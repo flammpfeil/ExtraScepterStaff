@@ -13,7 +13,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import thaumcraft.client.renderers.item.ItemWandRenderer;
-import thaumcraft.client.renderers.item.ModelWand;
+import thaumcraft.client.renderers.models.ModelWand;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigItems;
 
