@@ -43,14 +43,13 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 import java.util.Map;
 
 @Mod(name= ExtraScepterStaff.modname, modid= ExtraScepterStaff.modid, version=ExtraScepterStaff.version, dependencies = "required-after:Thaumcraft")
-public class ExtraScepterStaff implements IRepairable{
+public class ExtraScepterStaff {
 
 	public static final String modname = "ExtraScepterStaff";
     public static final String modid = "flammpfeil.extrascepterstaff";
-    public static final String version = "mc1.7.2 r1";
+    public static final String version = "@VERSION@";
 
     public static Item itemResource;
-    public static Item swordOfZephyr = null;
 
 	public static Configuration mainConfiguration;
 
