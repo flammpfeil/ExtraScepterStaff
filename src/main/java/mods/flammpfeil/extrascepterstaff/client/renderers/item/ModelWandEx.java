@@ -13,7 +13,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
-import thaumcraft.client.renderers.models.ModelWand;
+import thaumcraft.client.renderers.models.gear.ModelWand;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 import java.awt.*;
@@ -113,13 +113,13 @@ public class ModelWandEx extends ModelWand {
                     }
                     */
 
-                    if(wand.getFocus(wandStack).getFocusDepthLayerIcon() != null)
+                    if(wand.getFocus(wandStack).getFocusDepthLayerIcon(wandStack) != null)
                     {
                         setLightmapTextureCoords((int)(200F + MathHelper.sin(player.ticksExisted) * 5F + 5F));
 
                         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
 
-                        IIcon icon = wand.getFocus(wandStack).getFocusDepthLayerIcon();
+                        IIcon icon = wand.getFocus(wandStack).getFocusDepthLayerIcon(wandStack);
                         float uSize = icon.getMaxU() - icon.getMinU();
                         float vSize = icon.getMaxV() - icon.getMinV();
 
@@ -138,7 +138,7 @@ public class ModelWandEx extends ModelWand {
                         alpha = 0.6F;
                     }
 
-                    c = new Color(wand.getFocus(wandStack).getFocusColor());
+                    c = new Color(wand.getFocus(wandStack).getFocusColor(wandStack));
                 }
 
                 Minecraft.getMinecraft().renderEngine.bindTexture(wand.getRod(wandStack).getTexture());

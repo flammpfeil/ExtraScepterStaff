@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import thaumcraft.client.renderers.item.ItemWandRenderer;
-import thaumcraft.client.renderers.models.ModelWand;
+import thaumcraft.client.renderers.models.gear.ModelWand;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 /**
