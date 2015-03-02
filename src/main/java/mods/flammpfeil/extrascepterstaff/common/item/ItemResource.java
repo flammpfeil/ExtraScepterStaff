@@ -145,9 +145,39 @@ public class ItemResource extends Item {
             String name = MaterialNameMap.get(index);
             for(String format : formats){
                 ItemStack wandCasting = new ItemStack(ConfigItems.itemWandCasting, 1, 128);
-                ((ItemWandCasting) wandCasting.getItem()).setCap(wandCasting, WandCap.caps.get(String.format("ESS_%s",name)));
-                ((ItemWandCasting) wandCasting.getItem()).setRod(wandCasting, WandRod.rods.get(String.format(format,name)));
+
+                WandCap cap = WandCap.caps.get(String.format("ESS_%s",name));
+                if(cap == null) cap = WandCap.caps.get("thaumium");
+                ((ItemWandCasting) wandCasting.getItem()).setCap(wandCasting, cap);
+
+                WandRod rod = WandRod.rods.get(String.format(format,name));
+                if(rod == null) continue;
+                ((ItemWandCasting) wandCasting.getItem()).setRod(wandCasting, rod);
                 //sceptre.setTagInfo("sceptre", new NBTTagByte((byte) 1));
+
+                Aspect aspect;
+                for (Iterator i$ = Aspect.getPrimalAspects().iterator();i$.hasNext();) {
+                    aspect = (Aspect) i$.next();
+
+                    ((ItemWandCasting) wandCasting.getItem()).addVis(wandCasting, aspect, ((ItemWandCasting) wandCasting.getItem()).getMaxVis(wandCasting), true);
+                }
+                p_150895_3_.add(wandCasting);
+            }
+
+            scepters:
+            {
+
+                ItemStack wandCasting = new ItemStack(ConfigItems.itemWandCasting, 1, 128);
+
+                WandCap cap = WandCap.caps.get(String.format("ESS_%s",name));
+                //if(cap == null)
+                cap = WandCap.caps.get("void");
+                ((ItemWandCasting) wandCasting.getItem()).setCap(wandCasting, cap);
+
+                WandRod rod = WandRod.rods.get(String.format("ESS_%s",name));
+                if(rod == null) break scepters;
+                ((ItemWandCasting) wandCasting.getItem()).setRod(wandCasting, rod);
+                wandCasting.setTagInfo("sceptre", new NBTTagByte((byte) 1));
 
                 Aspect aspect;
                 for (Iterator i$ = Aspect.getPrimalAspects().iterator();i$.hasNext();) {

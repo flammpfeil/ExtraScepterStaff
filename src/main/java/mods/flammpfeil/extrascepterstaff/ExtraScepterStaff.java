@@ -11,10 +11,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mods.flammpfeil.extrascepterstaff.common.InitProxy;
+import mods.flammpfeil.extrascepterstaff.common.item.ClarissaWnadRodOnUpdate;
 import mods.flammpfeil.extrascepterstaff.common.item.ItemResource;
 import mods.flammpfeil.extrascepterstaff.common.item.WandRodOnUpdate;
 import mods.flammpfeil.extrascepterstaff.common.lib.crafting.InfusionExtraScepterStaffRecipe;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,6 +33,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.api.crafting.InfusionRecipe;
+import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.api.wands.IWandRodOnUpdate;
@@ -39,7 +42,9 @@ import thaumcraft.api.wands.WandCap;
 import thaumcraft.api.wands.WandRod;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemWandCasting;
+import thaumcraft.common.items.wands.WandRodPrimalOnUpdate;
 
+import java.util.Iterator;
 import java.util.Map;
 
 @Mod(name= ExtraScepterStaff.modname, modid= ExtraScepterStaff.modid, version=ExtraScepterStaff.version, dependencies = "required-after:Thaumcraft")
@@ -69,6 +74,8 @@ public class ExtraScepterStaff {
 
     public enum ExtraMaterials{
         Alicorn(1,"alicorn"),
+        Clarissa(2,"clarissa"),
+        Clarissa2(3,"clarissa2"),
 
         ;
         public final String name;
@@ -133,6 +140,68 @@ public class ExtraScepterStaff {
             ResourceLocation locEx = new ResourceLocation(modid,"models/ex_wand_rod_" + name + ".png");
             ItemStack exstaffcore = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.ExtraStaffRod));
             StaffCores.put(index,new StaffRod("ESS_Ex_"+name, 300, exstaffcore, 50, update, locEx));
+        }
+
+        {
+            ExtraMaterials mat = ExtraMaterials.Clarissa;
+
+            int index = mat.index;
+            String name = mat.name;
+
+            ItemResource.registerMaterialName(index, name);
+
+            ResourceLocation loc = new ResourceLocation(modid,"models/wand_rod_" + name + ".png");
+
+            ItemStack wandcap = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.WandCap));
+            WandCap cap = new WandCap("ESS_"+name,2.0F,wandcap,7);
+            ResourceLocation caploc = new ResourceLocation(modid,"models/wand_cap_" + name + ".png");
+            cap.setTexture(caploc);
+            WandCaps.put(index,cap);
+
+
+            //ItemStack staffcore = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.StaffRod));
+
+            IWandRodOnUpdate updateex = new ClarissaWnadRodOnUpdate(true,true);
+            ResourceLocation locEx = new ResourceLocation(modid,"models/ex_wand_rod_" + name + ".png");
+            ItemStack exstaffcore = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.ExtraStaffRod));
+            StaffRod rod = new StaffRod("ESS_Ex_"+name, 500, exstaffcore, 9999, updateex, locEx);
+            rod.setRunes(true);
+            rod.setGlowing(true);
+            StaffCores.put(index,rod);
+        }
+
+        {
+            ExtraMaterials mat = ExtraMaterials.Clarissa2;
+
+            int index = mat.index;
+            String name = mat.name;
+            IWandRodOnUpdate update = new ClarissaWnadRodOnUpdate(false,false);
+
+            ItemResource.registerMaterialName(index, name);
+
+            ResourceLocation loc = new ResourceLocation(modid,"models/wand_rod_" + name + ".png");
+
+            ItemStack wandcap = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.WandCap));
+            WandCap cap = new WandCap("ESS_"+name,2.0F,wandcap,7);
+            ResourceLocation caploc = new ResourceLocation(modid,"models/wand_cap_" + name + ".png");
+            cap.setTexture(caploc);
+            WandCaps.put(index,cap);
+
+            ItemStack wandcore = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.WandRod));
+            WandCores.put(index,new WandRod("ESS_"+name, 150, wandcore, 26, update, loc));
+
+            ItemStack staffcore = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.StaffRod));
+            StaffRod staffRod = new StaffRod("ESS_"+name, 350, staffcore, 37, update, loc);
+            staffRod.setRunes(true);
+            StaffCores.put(index,staffRod);
+
+            IWandRodOnUpdate updateex = new ClarissaWnadRodOnUpdate(false,true);
+            ResourceLocation locEx = new ResourceLocation(modid,"models/ex_wand_rod_" + name + ".png");
+            ItemStack exstaffcore = new ItemStack(itemResource,1,ItemResource.getItemDamage(index, ItemResource.ResourceType.ExtraStaffRod));
+            StaffRod rod = new StaffRod("ESS_Ex_"+name, 400, exstaffcore, 9999, updateex, locEx);
+            rod.setRunes(true);
+            rod.setGlowing(true);
+            StaffCores.put(index,rod);
         }
     }
     @EventHandler
@@ -246,9 +315,256 @@ public class ExtraScepterStaff {
         }
 */
 
+        String categoryKey = "EXTRASCEPTERSTAFF";
+        ResearchCategories.registerCategory(categoryKey, new ResourceLocation("flammpfeil.extrascepterstaff", "textures/items/logo.png"), new ResourceLocation("thaumcraft", "textures/gui/gui_researchback.png"));
+
         {
-            int offsetCol = -12;
-            int offsetRow = 2;
+            int offsetCol = 0;
+            int offsetRow = 0;
+
+
+            ExtraMaterials materialEx = ExtraMaterials.Clarissa;
+            String nameEx = materialEx.name;
+            int indexEx = materialEx.index;
+
+            ItemStack wandcapEx = new ItemStack(itemResource,1, ItemResource.getItemDamage(indexEx, ItemResource.ResourceType.WandCap));
+            ItemStack staffcoreEx = new ItemStack(itemResource,1, ItemResource.getItemDamage(indexEx, ItemResource.ResourceType.StaffRod));
+
+            ExtraMaterials material = ExtraMaterials.Clarissa2;
+            String name = material.name;
+            int index = material.index;
+
+            ItemStack wandcap = new ItemStack(itemResource,1, ItemResource.getItemDamage(index, ItemResource.ResourceType.WandCap));
+            ItemStack wandrod = new ItemStack(itemResource,1, ItemResource.getItemDamage(index, ItemResource.ResourceType.WandRod));
+            ItemStack staffcore = new ItemStack(itemResource,1, ItemResource.getItemDamage(index, ItemResource.ResourceType.StaffRod));
+
+
+            {
+                ThaumcraftApi.registerObjectTag(staffcoreEx, new AspectList()
+                        .add(Aspect.ORDER, 2).add(Aspect.ENTROPY, 2)
+                );
+
+                ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST,new WeightedRandomChestContent(staffcoreEx,1,1,1));
+                ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST,new WeightedRandomChestContent(staffcoreEx,1,1,1));
+                ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST,new WeightedRandomChestContent(staffcoreEx,1,1,1));
+            }
+
+            {
+                String researchKey = String.format("ROD_ESS_%s",name);
+
+
+                Item crystal = GameRegistry.findItem("Thaumcraft","blockCrystal");
+
+                InfusionRecipe recipe = ThaumcraftApi.addInfusionCraftingRecipe(researchKey, wandrod.copy(), 10,
+                        new AspectList()
+                                .add(Aspect.ORDER, 32)
+                                .add(Aspect.ENTROPY, 32)
+                                .add(Aspect.LIGHT, 64)
+                                .add(Aspect.MAGIC, 64),
+                        new ItemStack(ConfigItems.itemWandRod, 1, 100),
+                        new ItemStack[]{
+                                new ItemStack(Blocks.quartz_block,1,1),
+                                new ItemStack(crystal, 1, 4),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(crystal, 1, 5),
+                                new ItemStack(Blocks.quartz_block,1,1),
+                                new ItemStack(crystal, 1, 5),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(crystal, 1, 4)
+                        });
+
+                int localOffsetX = 2;
+                int localOffsetY = 2;
+
+                new ResearchItem(researchKey, categoryKey,
+                        new AspectList().add(Aspect.LIGHT, 5).add(Aspect.ENTROPY, 5).add(Aspect.ORDER, 8).add(Aspect.MAGIC, 5)
+                        ,offsetCol + localOffsetX, offsetRow + localOffsetY, 2, wandrod)
+                        .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"), new ResearchPage(recipe))
+                        .setHidden()
+                        .setItemTriggers(staffcoreEx)
+                        .registerResearchItem();
+
+                ThaumcraftApi.addWarpToResearch(researchKey, 1);
+            }
+
+            {
+                String researchKey = String.format("ROD_ESS_%s_staff",name);
+
+                Item crystal = GameRegistry.findItem("Thaumcraft","blockCrystal");
+
+                InfusionRecipe recipe = ThaumcraftApi.addInfusionCraftingRecipe(researchKey, staffcore.copy(), 10,
+                        new AspectList()
+                                .add(Aspect.ORDER, 32)
+                                .add(Aspect.ENTROPY, 64)
+                                .add(Aspect.LIGHT, 64)
+                                .add(Aspect.MAGIC, 32),
+                        wandrod.copy(),
+                        new ItemStack[]{
+                                new ItemStack(ConfigItems.itemResource, 1, 15),
+                                new ItemStack(crystal, 1, 4),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(crystal, 1, 5),
+                                new ItemStack(Blocks.quartz_block,1,1),
+                                new ItemStack(crystal, 1, 5),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(crystal, 1, 4)
+                        });
+
+                int localOffsetX = 2;
+                int localOffsetY = 4;
+
+                new ResearchItem(researchKey, categoryKey,
+                        new AspectList().add(Aspect.LIGHT, 5).add(Aspect.ENTROPY, 5).add(Aspect.ORDER, 8).add(Aspect.MAGIC, 5).add(Aspect.AURA, 5)
+                        ,offsetCol + localOffsetX, offsetRow + localOffsetY, 2, staffcore)
+                        .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),new ResearchPage(recipe))
+                                //.setHidden()
+                                //.setVirtual()
+                                //.setConcealed()
+                                //.setItemTriggers(staffcore)
+                        .setConcealed()
+                        .setParents(String.format("ROD_ESS_%s",name))
+                        .registerResearchItem();
+
+                ThaumcraftApi.addWarpToResearch(researchKey, 3);
+            }
+
+            {
+                String researchKey = String.format("ROD_ESS_Ex_%s_staff",name);
+
+
+                ItemStack wandCasting = new ItemStack(ConfigItems.itemWandCasting, 1, 128);
+
+                {
+                    WandCap cap = WandCap.caps.get(String.format("ESS_%s",name));
+                    ((ItemWandCasting) wandCasting.getItem()).setCap(wandCasting, cap);
+
+                    WandRod rod = WandRod.rods.get(String.format("ESS_Ex_%s_staff",name));
+                    ((ItemWandCasting) wandCasting.getItem()).setRod(wandCasting, rod);
+
+                    Aspect aspect;
+                    for (Iterator i$ = Aspect.getPrimalAspects().iterator();i$.hasNext();) {
+                        aspect = (Aspect) i$.next();
+
+                        ((ItemWandCasting) wandCasting.getItem()).addVis(wandCasting, aspect, ((ItemWandCasting) wandCasting.getItem()).getMaxVis(wandCasting), true);
+                    }
+                }
+
+
+                Item crystal = GameRegistry.findItem("Thaumcraft","blockCrystal");
+
+                InfusionRecipe recipe = ThaumcraftApi.addInfusionCraftingRecipe(researchKey, wandCasting.copy(), 10,
+                        new AspectList()
+                                .add(Aspect.ORDER, 64)
+                                .add(Aspect.ENTROPY, 64)
+                                .add(Aspect.LIGHT, 128)
+                                .add(Aspect.MAGIC, 64),
+                        staffcore.copy(),
+                        new ItemStack[]{
+                                new ItemStack(Items.nether_star),
+                                new ItemStack(Blocks.quartz_block, 1, 1),
+                                new ItemStack(crystal, 1, 6),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(crystal, 1, 5),
+                                new ItemStack(ConfigItems.itemShard, 1, 5),
+                                new ItemStack(Blocks.quartz_block, 1, 1),
+                                new ItemStack(ConfigItems.itemShard, 1, 5),
+                                new ItemStack(crystal, 1, 5),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(crystal, 1, 6),
+                                new ItemStack(Blocks.quartz_block, 1, 1),
+                        });
+
+                int localOffsetX = 2;
+                int localOffsetY = 6;
+
+                new ResearchItem(researchKey, categoryKey,
+                        new AspectList().add(Aspect.LIGHT, 5).add(Aspect.ENTROPY, 5).add(Aspect.ORDER, 8).add(Aspect.MAGIC, 5).add(Aspect.AURA, 5).add(Aspect.FIRE, 5)
+                        ,offsetCol + localOffsetX, offsetRow + localOffsetY, 2, wandCasting)
+                        .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),new ResearchPage(recipe))
+                                //.setHidden()
+                                //.setVirtual()
+                                //.setConcealed()
+                                //.setItemTriggers(staffcore)
+                        .setSpecial()
+                        .setConcealed()
+                        .setParents(String.format("ROD_ESS_%s_staff",name))
+                        .registerResearchItem();
+
+                ThaumcraftApi.addWarpToResearch(researchKey, 5);
+            }
+
+
+            {
+                String researchKey = String.format("ROD_ESS_Ex_%s_staff",nameEx);
+
+
+                ItemStack wandCasting = new ItemStack(ConfigItems.itemWandCasting, 1, 128);
+
+                {
+                    WandCap cap = WandCap.caps.get(String.format("ESS_%s",nameEx));
+                    ((ItemWandCasting) wandCasting.getItem()).setCap(wandCasting, cap);
+
+                    WandRod rod = WandRod.rods.get(String.format("ESS_Ex_%s_staff",nameEx));
+                    ((ItemWandCasting) wandCasting.getItem()).setRod(wandCasting, rod);
+
+                    Aspect aspect;
+                    for (Iterator i$ = Aspect.getPrimalAspects().iterator();i$.hasNext();) {
+                        aspect = (Aspect) i$.next();
+
+                        ((ItemWandCasting) wandCasting.getItem()).addVis(wandCasting, aspect, ((ItemWandCasting) wandCasting.getItem()).getMaxVis(wandCasting), true);
+                    }
+                }
+
+
+                Item crystal = GameRegistry.findItem("Thaumcraft","blockCrystal");
+
+                InfusionRecipe recipe = ThaumcraftApi.addInfusionCraftingRecipe(researchKey, wandCasting.copy(), 10,
+                        new AspectList()
+                                .add(Aspect.ORDER, 64)
+                                .add(Aspect.ENTROPY, 64)
+                                .add(Aspect.FIRE, 64)
+                                .add(Aspect.EARTH, 64)
+                                .add(Aspect.WATER, 64)
+                                .add(Aspect.AIR, 64)
+                                .add(Aspect.LIGHT, 128)
+                                .add(Aspect.MAGIC, 64),
+                        staffcoreEx.copy(),
+                        new ItemStack[]{
+                                new ItemStack(ConfigItems.itemEldritchObject, 1, 3),
+                                new ItemStack(Items.nether_star),
+                                new ItemStack(crystal, 1,4),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(Items.nether_star),
+                                new ItemStack(ConfigItems.itemShard, 1, 6),
+                                new ItemStack(crystal, 1, 4),
+                                new ItemStack(Items.nether_star),
+                        });
+
+                int localOffsetX = 2;
+                int localOffsetY = 8;
+
+                new ResearchItem(researchKey, categoryKey,
+                        new AspectList().add(Aspect.LIGHT, 5).add(Aspect.ENTROPY, 5).add(Aspect.ORDER, 8).add(Aspect.MAGIC, 5).add(Aspect.AURA, 5).add(Aspect.SENSES, 5)
+                        ,offsetCol + localOffsetX, offsetRow + localOffsetY, 2, wandCasting)
+                        .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),new ResearchPage(recipe))
+                                //.setHidden()
+                                //.setVirtual()
+                                //.setConcealed()
+                                //.setItemTriggers(staffcore)
+                        .setLost()
+                        .setSpecial()
+                        .setRound()
+                        .setConcealed()
+                        .setParents(String.format("ROD_ESS_%s_staff", name))
+                        .registerResearchItem();
+            }
+        }
+
+
+
+        {
+            int offsetCol = 10;
+            int offsetRow = 0;
 
             ExtraMaterials mat = ExtraMaterials.Alicorn;
             String name = mat.name;
@@ -295,7 +611,7 @@ public class ExtraScepterStaff {
                                 .add(Aspect.SENSES, 4)
                                 .add(Aspect.HEAL, 24));
 
-                new ResearchItem(researchKey, "THAUMATURGY",
+                new ResearchItem(researchKey, categoryKey,
                         new AspectList().add(Aspect.BEAST, 1).add(Aspect.FLIGHT, 1).add(Aspect.ORDER, 1).add(Aspect.MAGIC, 1)
                         , offsetCol, offsetRow, 1, material)
                         .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),
@@ -325,7 +641,7 @@ public class ExtraScepterStaff {
                             });
 
 
-                new ResearchItem(researchKey, "THAUMATURGY",
+                new ResearchItem(researchKey, categoryKey,
                         new AspectList().add(Aspect.TOOL, 2).add(Aspect.BEAST, 2).add(Aspect.FLIGHT, 2).add(Aspect.ORDER, 4).add(Aspect.MAGIC, 2).add(Aspect.HEAL, 2)
                         , offsetCol + 1, offsetRow + 1, 2, wandrod)
                         .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),
@@ -352,7 +668,7 @@ public class ExtraScepterStaff {
                         'F', fragment.copy()
                 });
 
-                new ResearchItem(researchKey, "THAUMATURGY",
+                new ResearchItem(researchKey, categoryKey,
                         new AspectList().add(Aspect.TOOL, 5).add(Aspect.BEAST, 5).add(Aspect.FLIGHT, 5).add(Aspect.ORDER, 8).add(Aspect.MAGIC, 5).add(Aspect.HEAL, 5)
                         ,offsetCol + 2, offsetRow + 2, 2, staffcore)
                         .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),
@@ -379,7 +695,7 @@ public class ExtraScepterStaff {
                                 new ItemStack(ConfigItems.itemResource, 1, 14), fragment.copy()
                         });
 
-                new ResearchItem(researchKey, "THAUMATURGY",
+                new ResearchItem(researchKey, categoryKey,
                         new AspectList().add(Aspect.TOOL, 5).add(Aspect.BEAST, 5).add(Aspect.FLIGHT, 5).add(Aspect.ORDER, 8).add(Aspect.MAGIC, 5).add(Aspect.HEAL, 5)
                         ,offsetCol - 2, offsetRow + 2, 2, wandcap)
                         .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),
@@ -421,7 +737,7 @@ public class ExtraScepterStaff {
                 ((ItemWandCasting) wandCasting.getItem()).setCap(wandExCasting, WandCap.caps.get(String.format("ESS_%s",name)));
                 ((ItemWandCasting) wandCasting.getItem()).setRod(wandExCasting, WandRod.rods.get(String.format("ESS_Ex_%s_staff",name)));
 
-                new ResearchItem(researchKey, "THAUMATURGY",
+                new ResearchItem(researchKey, categoryKey,
                         new AspectList().add(Aspect.FLIGHT, 5).add(Aspect.ORDER, 8).add(Aspect.MAGIC, 5).add(Aspect.HEAL, 16)
                         ,offsetCol, offsetRow + 4, 2, wandExCasting)
                         .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"),

@@ -33,6 +33,28 @@ public class InitProxyClient extends InitProxy {
             }
         }
 
+        {
+            String name = ExtraScepterStaff.ExtraMaterials.Clarissa.name;
+            ResourceLocation loc = new ResourceLocation(ExtraScepterStaff.modid,"models/Clarissa.obj");
+            try{
+                IModelCustom model = AdvancedModelLoader.loadModel(loc);
+                ModelWandEx.CustomModels.put("ESS_Ex_"+name+"_staff",model);
+            }catch(Throwable t){
+                t.printStackTrace();
+            }
+        }
+
+        {
+            String name = ExtraScepterStaff.ExtraMaterials.Clarissa2.name;
+            ResourceLocation loc = new ResourceLocation(ExtraScepterStaff.modid,"models/Clarissa.obj");
+            try{
+                IModelCustom model = AdvancedModelLoader.loadModel(loc);
+                ModelWandEx.CustomModels.put("ESS_Ex_"+name+"_staff",model);
+            }catch(Throwable t){
+                t.printStackTrace();
+            }
+        }
+
         IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(new ItemStack(ConfigItems.itemWandCasting), IItemRenderer.ItemRenderType.ENTITY);
         if(renderer instanceof ItemWandRenderer){
             IItemRenderer ex = new ItemWandRendererEx((ItemWandRenderer)renderer);

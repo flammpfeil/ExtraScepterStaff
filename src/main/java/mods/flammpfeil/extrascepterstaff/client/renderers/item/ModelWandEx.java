@@ -64,7 +64,12 @@ public class ModelWandEx extends ModelWand {
             float scale = 0.020f;
             if(type == IItemRenderer.ItemRenderType.EQUIPPED)
             {
+                GL11.glEnable(GL11.GL_CULL_FACE);
+                GL11.glFrontFace(GL11.GL_CW);
                 scale = 0.025f;
+            }else{
+                GL11.glEnable(GL11.GL_CULL_FACE);
+                GL11.glFrontFace(GL11.GL_CCW);
             }
             GL11.glScalef(scale, scale, scale);
             GL11.glRotatef(180.0f, 0, 0, 1);
@@ -78,6 +83,7 @@ public class ModelWandEx extends ModelWand {
                 GL11.glRotatef(-20.0f, 0, 1, 0);
                 GL11.glTranslatef(-50f, -50f, -40.0f);
             }
+
 
             if(type == IItemRenderer.ItemRenderType.INVENTORY){
                 GL11.glRotatef(160.0f, 0, 1, 0);
