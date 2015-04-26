@@ -381,6 +381,7 @@ public class ExtraScepterStaff {
                         ,offsetCol + localOffsetX, offsetRow + localOffsetY, 2, wandrod)
                         .setPages(new ResearchPage("tc.research_page." + researchKey + ".1"), new ResearchPage(recipe))
                         .setHidden()
+                                //.setSecondary()
                         .setItemTriggers(staffcoreEx)
                         .registerResearchItem();
 
@@ -421,6 +422,7 @@ public class ExtraScepterStaff {
                                 //.setVirtual()
                                 //.setConcealed()
                                 //.setItemTriggers(staffcore)
+                                //.setSecondary()
                         .setConcealed()
                         .setParents(String.format("ROD_ESS_%s",name))
                         .registerResearchItem();
@@ -485,6 +487,7 @@ public class ExtraScepterStaff {
                                 //.setVirtual()
                                 //.setConcealed()
                                 //.setItemTriggers(staffcore)
+                                //.setSecondary()
                         .setSpecial()
                         .setConcealed()
                         .setParents(String.format("ROD_ESS_%s_staff",name))
@@ -551,11 +554,11 @@ public class ExtraScepterStaff {
                                 //.setVirtual()
                                 //.setConcealed()
                                 //.setItemTriggers(staffcore)
-                        .setLost()
+                        //.setSecondary()
                         .setSpecial()
                         .setRound()
                         .setConcealed()
-                        .setParents(String.format("ROD_ESS_%s_staff", name))
+                        .setParents(String.format("ROD_ESS_Ex_%s_staff",name))
                         .registerResearchItem();
             }
         }

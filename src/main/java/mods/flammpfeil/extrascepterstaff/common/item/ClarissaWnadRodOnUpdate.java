@@ -3,6 +3,7 @@ package mods.flammpfeil.extrascepterstaff.common.item;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -72,7 +73,8 @@ public class ClarissaWnadRodOnUpdate implements IWandRodOnUpdate {
             if(isExStaff && isTrue && beaconEffect){
                 PotionEffect[] effects = (PotionEffect[])entityPlayer.getActivePotionEffects().toArray(new PotionEffect[]{});
                 for(PotionEffect effect : effects){
-                    if(Potion.potionTypes[effect.getPotionID()].isBadEffect()){
+                    boolean isBadEffect = (Boolean)ObfuscationReflectionHelper.getPrivateValue(Potion.class,Potion.potionTypes[effect.getPotionID()],"field_76418_K","isBadEffect");
+                    if(isBadEffect){
                         if(entityPlayer.getRNG().nextFloat() < 0.8f){
                             entityPlayer.removePotionEffect(effect.getPotionID());
                             break;

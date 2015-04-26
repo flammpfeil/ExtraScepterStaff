@@ -17,13 +17,13 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "mc1.7.10-for422-r2"
+version = "mc1.7.10-for422-r4"
 group= "flammpfeil.extrascepterstaff" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ExtraScepterStaff"
 
 minecraft {
-    version = "1.7.10-10.13.0.1183"
-    assetDir = "eclipse/assets"
+    version = "1.7.10-10.13.2.1291"
+    runDir = "eclipse"
 
     //static final boolean isRelease = /*@IS_RELEASE@*/ false;
     replace '@IS_RELEASE@', '*/true;//'
@@ -51,8 +51,10 @@ dependencies {
     runtime fileTree(dir: 'libs', include: '*.jar')
 }
 
-tasks.withType(Compile) {
-    options.encoding = 'UTF-8'
+def defaultEncoding = 'UTF-8'
+tasks.withType(AbstractCompile) each {
+    it.options.encoding = defaultEncoding
+    it.options.compilerArgs += ['-source', '1.6', '-target', '1.6']
 }
 
 
